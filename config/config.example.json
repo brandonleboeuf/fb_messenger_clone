@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "YOUR_DB_USERNAME",
+    "password": "YOUR_DB_PASSWORD",
+    "database": "DB_NAME",
+    "host": "localhost",
+    "dialect": "DB_TYPE (ie. postgres, mongo, ect"
+  },
+  "test": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "dialect": ""
+  },
+  "production": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "dialect": ""
+  }
+}

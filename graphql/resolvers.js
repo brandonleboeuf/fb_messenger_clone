@@ -13,8 +13,19 @@ module.exports = {
         console.log(err)
       }
     },
+    login: async (_, args) => {
+      const { username, password } = args
+      try {
+        const user = await User.findOneOrFail({ where: username })
+
+        if (user.password === password) return user
+      } catch (err) {
+        console.log(err)
+      }
+    },
   },
   Mutation: {
+    // https://www.apollographql.com/docs/apollo-server/data/resolvers/#resolver-arguments
     // register: async (parent, args, context, info) => {},
     register: async (_, args) => {
       let { username, email, password, confirmPassword } = args
@@ -31,6 +42,8 @@ module.exports = {
         if (password !== confirmPassword)
           errors.confirmPassword = 'Passwords must match'
 
+        // these are unnesisarry as the user models handle the validiation with "unique: true" for username & email
+        // and "validate: {isEmail}" for the email
         // // Check if username /email exists
         // const userAlreadyExists = await User.findOne({ where: { username } })
         // const emailIsAlreadyUsed = await User.findOne({ where: { email } })
