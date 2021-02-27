@@ -38,12 +38,11 @@ export default function Register() {
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     // update(cache, res)
     update: (_, __) => Router.push('/login'),
-    onError: (err) => setErrors({ ...err.graphQLErrors[0].extensions.errors }),
+    onError: (err) => setErrors({ ...err.graphQLErrors[0]?.extensions.errors }),
   })
 
   const submitRegisterForm = (e) => {
     e.preventDefault()
-    console.log({ errors })
     registerUser({ variables })
   }
 

@@ -3,26 +3,15 @@ const { UserInputError, AuthenticationError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 
-const { User, sequelize } = require('../models')
-const { JWT_SECRET } = require('../config/env.json')
+const { User } = require('../../models')
+const { JWT_SECRET } = require('../../config/env.json')
 
 module.exports = {
   Query: {
-    getUsers: async (_, __, context) => {
-      let user
-
+    getUsers: async (_, __, { user }) => {
       try {
-        const token = context.req?.headers.authorization.split(`Bearer `)[1]
+        if (!user) throw new AuthenticationError('Unauthenticated')
 
-        // if (context.req?.headers.authorization) {
-        if (token) {
-          jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-            if (err) {
-              throw new AuthenticationError('Unauthenticated')
-            }
-            user = decodedToken
-          })
-        }
         const users = await User.findAll({
           where: { username: { [Op.ne]: user.username } },
         })
