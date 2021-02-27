@@ -56,8 +56,8 @@ module.exports = {
         const correctPassword = await bcrypt.compare(password, user.password)
 
         if (!correctPassword) {
-          errors.password = `${user.password} password is incorrect`
-          throw new AuthenticationError(`password is incorrect`, {
+          errors.password = 'password is incorrect'
+          throw new UserInputError(`password is incorrect`, {
             errors,
           })
         }
@@ -134,7 +134,7 @@ module.exports = {
         } else if (err.name === 'SequelizeValidationError') {
           err.errors.forEach((e) => (errors[e.path] = e.message))
         }
-        throw new UserInputError('Bad input', { errors: err })
+        throw new UserInputError('Bad input', { errors })
       }
     },
   },
