@@ -1,7 +1,25 @@
 import { createContext, useReducer, useContext } from 'react'
+import jwtDecode from 'jwt-decode'
 
 const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
+
+let user
+
+// When next.js innitializes, the window object is not imediatly avalible. This check will wait until it is avalible
+if (typeof window !== 'undefined') {
+  const token = localStorage.getItem('token')
+  if (token) {
+    const decodedToken = jwtDecode(token)
+    const expiresAt = new Date(decodedToken.exp * 1000)
+
+    if (new Date() > expiresAt) {
+      localStorage.removeItem('token')
+    } else {
+      user = decodedToken
+    }
+  } else console.log('no token found')
+}
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +41,7 @@ const authReducer = (state, action) => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null })
+  const [state, dispatch] = useReducer(authReducer, { user })
   return (
     <AuthDispatchContext.Provider value={dispatch}>
       <AuthStateContext.Provider value={state}>

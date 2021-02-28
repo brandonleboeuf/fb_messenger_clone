@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import { useMutation, gql } from '@apollo/client'
 
+import { useAuthState } from '../context/auth'
+
 const REGISTER_USER = gql`
   mutation register(
     $username: String!
@@ -26,6 +28,10 @@ const REGISTER_USER = gql`
 `
 
 export default function Register() {
+  const { user } = useAuthState()
+  if (user) {
+    Router.push('/')
+  }
   const [variables, setVariables] = useState({
     email: '',
     username: '',

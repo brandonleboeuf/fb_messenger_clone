@@ -9,14 +9,14 @@ import Nav from '../components/Nav'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ApolloProvider client={client}>
-      <AuthProvider>
+    <AuthProvider>
+      <ApolloProvider client={client}>
         <Nav />
         <Container className="pt-5">
           <Component {...pageProps} />
         </Container>
-      </AuthProvider>
-    </ApolloProvider>
+      </ApolloProvider>
+    </AuthProvider>
   )
 }
 

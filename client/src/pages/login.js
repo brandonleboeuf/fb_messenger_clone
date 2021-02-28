@@ -5,7 +5,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap'
 import { gql, useLazyQuery } from '@apollo/client'
 import Link from 'next/link'
 
-import { useAuthDispatch } from '../context/auth'
+import { useAuthDispatch, useAuthState } from '../context/auth'
 
 const LOGIN_USER = gql`
   query login($username: String!, $password: String!) {
@@ -19,6 +19,10 @@ const LOGIN_USER = gql`
 `
 
 export default function Login() {
+  const { user } = useAuthState()
+  if (user) {
+    Router.push('/')
+  }
   const [variables, setVariables] = useState({
     username: '',
     password: '',
