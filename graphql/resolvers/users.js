@@ -9,6 +9,7 @@ const { JWT_SECRET } = require('../../config/env.json')
 module.exports = {
   Query: {
     getUsers: async (_, __, { user }) => {
+      // console.log({ user })
       try {
         if (!user) throw new AuthenticationError('Unauthenticated')
 
@@ -21,6 +22,7 @@ module.exports = {
         throw err
       }
     },
+
     login: async (_, args) => {
       const { username, password } = args
       let errors = {}

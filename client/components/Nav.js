@@ -3,13 +3,14 @@ import Router from 'next/router'
 import Image from 'next/image'
 
 // import logo from './chat_logo.png'
-import { Row, Col, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 import { useAuthDispatch, useAuthState } from '../context/auth'
 
 export default function Nav() {
   const { user } = useAuthState()
   const dispatch = useAuthDispatch()
+
   const logout = () => {
     dispatch({ type: 'LOGOUT' })
     Router.push('/')
@@ -18,6 +19,7 @@ export default function Nav() {
   return (
     <nav className="bg-white d-flex px-4 justify-content-between">
       <Image src="/chat_logo.png" alt="Chat logo" width={100} height={100} />
+
       {user ? (
         <Button variant="link" onClick={logout}>
           Logout
